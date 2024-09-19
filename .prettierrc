@@ -1,0 +1,9 @@
+{
+	"arrowParens": "avoid",
+	"tabWidth": 4,
+	"useTabs": true,
+	"trailingComma": "all",
+	"bracketSpacing": false,
+	"jsxBracketSameLine": true,
+	"endOfLine": "lf"
+}
