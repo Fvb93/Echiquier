@@ -1,0 +1,42 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+  
+  #chessboard {
+    border: 2px solid black;
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+#chessboard td {
+    width: 8vh;
+    height: 8vh;
+}
+
+
+h1 {
+    font-size: 5vh;
+}
+.white {
+    background-color: #f0d9b5;
+}
+
+.black {
+    background-color: #b58863;
+}
+
+.pionNoir {
+    height: 100%;
+    background-image: url('./images/NOIR.jpg');
+    background-size: cover;
+}
+
+.pionBlanc {
+    height: 100%;
+    background-image: url('./images/blanc.png');
+    background-size: cover;
+}
