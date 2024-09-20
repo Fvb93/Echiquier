@@ -1,3 +1,13 @@
+// NOTE: Idéalement, il aurait fallu diviser ce fichier en plusieurs fichiers mais pour des raisons de simplicité, nous avons tout mis dans un seul fichier
+
+/* 
+   *****************
+    FONCTIONS DE GENERATIONS
+    - Création du tableau (damier)
+    - Initialisation des pions
+   ****************** 
+*/
+
 // Fct Création du tableau
 const creationBoard = tableNode => {
 	for (let y = 1; y < 9; y++) {
@@ -44,24 +54,47 @@ const init = (tableNode, pionTab) => {
 	}
 };
 
+/* 
+   *****************
+    FONCTION GLOBALE 
+
+    En JS, les fonctions sont globales par défaut.
+    C'est à dire qu'elles sont accessibles partout dans le code (et même dans les autres fichiers JS)
+
+    Grace à cela, les fonctions suivantes vont être accessibles dans le fichier JS/Pion.js
+   ****************** 
+*/
+
 // Fait en sorte que les pions soient cliquables (premier clique pour selectionner le pion à déplacer)
-const addAllPionSelectionEvents = pionTab => {
-	pionTab.forEach(pion => {
-		pion.setPionSelectionEvent(() => removeAllPionSelectionEvents(pionTab));
+const addAllPionSelectionEvents = () => {
+	pions.forEach(pion => {
+		pion.setPionSelectionEvent(removeAllPionSelectionEvents);
 	});
 };
 
 // Désactive les events listeners de tout les pions
-const removeAllPionSelectionEvents = pionTab => {
-	pionTab.forEach(pion => {
+const removeAllPionSelectionEvents = () => {
+	pions.forEach(pion => {
 		pion.removePionSelectionEvent();
 	});
 };
 
-// DOM elements
+/*
+    *****************
+    DOM ELEMENTS
+
+    Ici, on récupère les éléments du DOM (tableau) qui nous serviront pour la suite
+    ******************
+ */
 const table = document.querySelector("#chessboard");
 
-// Main
+/*
+    *****************
+    MAIN
+
+    Ici, on initialise le jeu (création du board, intialisation des pions, ajout des events listeners)
+    ******************
+ */
 const pions = [];
 
 // création du damier
