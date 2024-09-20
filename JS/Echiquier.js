@@ -22,7 +22,7 @@ const init = (tableNode, pionTab) => {
 
 			// Creation of the Pion object (class Pion)
 			const pion = new Pion(table, pionDiv, x, y, "black");
-			pion.setEvent(); // Add the event listener
+			pion.setPionSelectionEvent(pionTab); // Add the event listener for the first click
 			pionTab.push(pion);
 		}
 	}
@@ -35,10 +35,20 @@ const init = (tableNode, pionTab) => {
 
 			// Creation of the Pion object (class Pion)
 			const pion = new Pion(table, pionDiv, x, y, "white");
-			pion.setEvent(); // Add the event listener
+			pion.setPionSelectionEvent(() =>
+				removeAllPionSelectionEvents(pionTab),
+			);
+
+			// Add the pion to the array of pions
 			pionTab.push(pion);
 		}
 	}
+};
+
+const removeAllPionSelectionEvents = pionTab => {
+	pionTab.forEach(pion => {
+		pion.removePionSelectionEvent();
+	});
 };
 
 // DOM elements

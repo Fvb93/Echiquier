@@ -4,6 +4,7 @@ class Pion {
 	x = 0;
 	y = 0;
 	color;
+	pionSelectionAbortController = new AbortController();
 
 	constructor(table, node, x, y, color) {
 		this.table = table;
@@ -13,10 +14,19 @@ class Pion {
 		this.color = color;
 	}
 
-	setEvent() {
-		this.node.addEventListener("click", () => {
-			this.move();
-		});
+	setPionSelectionEvent(disableAllFn) {
+		this.node.addEventListener(
+			"click",
+			() => {
+				console.log(`Pion clicked ${this.x};${this.y}`);
+				disableAllFn();
+			},
+			{signal: this.pionSelectionAbortController.signal}, // permet d'annuler l'event listener
+		);
+	}
+
+	removePionSelectionEvent() {
+		this.pionSelectionAbortController.abort(); // annule les events listener utilisant l'AbortController
 	}
 
 	getDirection() {
