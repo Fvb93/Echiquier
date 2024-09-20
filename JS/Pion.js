@@ -117,12 +117,27 @@ class Pion {
 			possibleMoveDiv.remove();
 		});
 
+		// on vérifie si un pion est présent sur la case d'arrivée
+		const target = this.checkIfMovedOnPion(newX, newY);
+		if (target) {
+			target.destroy();
+		}
+
 		// déplace le pion
+
 		this.x = newX;
 		this.y = newY;
 		this.table.rows[newY].cells[newX].appendChild(this.node);
 
 		// utilisation de la fonction globale pour ajouter les events listener de tout les pions
 		addAllPionSelectionEvents();
+	}
+
+	destroy() {
+		this.node.remove();
+	}
+
+	checkIfMovedOnPion(x, y) {
+		return pions.find(pion => pion.x === x && pion.y === y);
 	}
 }
