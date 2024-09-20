@@ -21,6 +21,9 @@ class Pion {
 				console.log("Pion selectionné : " + this.x + " " + this.y);
 				// désactive tous l'event listener de tout les pions (fonction callback fournie lors de la création)
 				disableAllFn();
+
+				// place des points rouges au movement possible
+				this.showPossibleMove();
 			},
 			{signal: this.pionSelectionAbortController.signal}, // permet d'annuler l'event listener
 		);
@@ -32,6 +35,59 @@ class Pion {
 
 	getDirection() {
 		return this.color === "black" ? 1 : -1;
+	}
+
+	// Function à override par enfant
+	// Renvoie un tableau de coordonnées (x, y) des mouvements possibles
+	getPossibleMoves() {
+		const possibleMoveTab = [];
+
+		/*
+         NOTE: à l'état actuel, notre pion:
+         -   ne peut se déplacer que s'il n'y a rien devant lui
+         -  de 1 ou 2 cases devant lui si elle est vide
+        */
+
+		// 1ere case devant le pion
+		if (
+			this.table.rows[this.y + this.getDirection()].cells[this.x].children // cette condition va problablement changer pour utiliser la liste de pions (class)
+				.length === 0
+		) {
+			// ajoute le mouvement possible
+			possibleMoveTab.push({
+				x: this.x,
+				y: this.y + 1 * this.getDirection(),
+			});
+		}
+
+		// 2eme case devant le pion
+		if (
+			this.table.rows[this.y + 2 * this.getDirection()].cells[this.x]
+				.children.length === 0
+		) {
+			// ajoute le mouvement possible
+			possibleMoveTab.push({
+				x: this.x,
+				y: this.y + 2 * this.getDirection(),
+			});
+		}
+
+		return possibleMoveTab;
+	}
+
+	showPossibleMove() {
+		const possibleMoves = this.getPossibleMoves();
+
+		possibleMoves.forEach(possibleMove => {
+			// création de la div du point (pour le mouvement possible)
+			const div = document.createElement("div");
+			div.classList.add("point");
+
+			// ajoute le point au tableau
+			this.table.rows[possibleMove.y].cells[possibleMove.x].appendChild(
+				div,
+			);
+		});
 	}
 
 	move() {
