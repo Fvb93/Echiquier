@@ -15,40 +15,43 @@ const creationBoard = tableNode => {
 const init = (tableNode, pionTab) => {
 	for (let y = 0; y < 2; y++) {
 		for (let x = 0; x < tableNode.rows[y].cells.length; x++) {
-			// Creation of the HTML element
+			// Création de la div du pion
 			const pionDiv = document.createElement("div");
 			pionDiv.classList.add("pionNoir");
 			tableNode.rows[y].cells[x].appendChild(pionDiv);
 
-			// Creation of the Pion object (class Pion)
+			// Instanciation de l'objet Pion (classe Pion)
 			const pion = new Pion(table, pionDiv, x, y, "black");
 
-			// Add the pion to the array of pions
+			// Ajoute le pion au tableau de pions
 			pionTab.push(pion);
 		}
 	}
 
 	for (let y = tableNode.rows.length - 2; y < tableNode.rows.length; y++) {
 		for (let x = 0; x < tableNode.rows[y].cells.length; x++) {
+			// Création de la div du pion
 			const pionDiv = document.createElement("div");
 			pionDiv.classList.add("pionBlanc");
 			tableNode.rows[y].cells[x].appendChild(pionDiv);
 
-			// Creation of the Pion object (class Pion)
+			// Instanciation de l'objet Pion (classe Pion)
 			const pion = new Pion(table, pionDiv, x, y, "white");
 
-			// Add the pion to the array of pions
+			// Ajoute le pion au tableau de pions
 			pionTab.push(pion);
 		}
 	}
 };
 
+// Fait en sorte que les pions soient cliquables (premier clique pour selectionner le pion à déplacer)
 const addAllPionSelectionEvents = pionTab => {
 	pionTab.forEach(pion => {
 		pion.setPionSelectionEvent(() => removeAllPionSelectionEvents(pionTab));
 	});
 };
 
+// Désactive les events listeners de tout les pions
 const removeAllPionSelectionEvents = pionTab => {
 	pionTab.forEach(pion => {
 		pion.removePionSelectionEvent();

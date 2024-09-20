@@ -18,6 +18,7 @@ class Pion {
 		this.node.addEventListener(
 			"click",
 			() => {
+				console.log("Pion selectionné : " + this.x + " " + this.y);
 				// désactive tous l'event listener de tout les pions (fonction callback fournie lors de la création)
 				disableAllFn();
 			},
