@@ -18,7 +18,7 @@ class Pion {
 		this.node.addEventListener(
 			"click",
 			() => {
-				console.log(`Pion clicked ${this.x};${this.y}`);
+				// désactive tous l'event listener de tout les pions (fonction callback fournie lors de la création)
 				disableAllFn();
 			},
 			{signal: this.pionSelectionAbortController.signal}, // permet d'annuler l'event listener

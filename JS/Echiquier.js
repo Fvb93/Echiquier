@@ -22,7 +22,8 @@ const init = (tableNode, pionTab) => {
 
 			// Creation of the Pion object (class Pion)
 			const pion = new Pion(table, pionDiv, x, y, "black");
-			pion.setPionSelectionEvent(pionTab); // Add the event listener for the first click
+
+			// Add the pion to the array of pions
 			pionTab.push(pion);
 		}
 	}
@@ -35,14 +36,17 @@ const init = (tableNode, pionTab) => {
 
 			// Creation of the Pion object (class Pion)
 			const pion = new Pion(table, pionDiv, x, y, "white");
-			pion.setPionSelectionEvent(() =>
-				removeAllPionSelectionEvents(pionTab),
-			);
 
 			// Add the pion to the array of pions
 			pionTab.push(pion);
 		}
 	}
+};
+
+const addAllPionSelectionEvents = pionTab => {
+	pionTab.forEach(pion => {
+		pion.setPionSelectionEvent(() => removeAllPionSelectionEvents(pionTab));
+	});
 };
 
 const removeAllPionSelectionEvents = pionTab => {
@@ -56,5 +60,12 @@ const table = document.querySelector("#chessboard");
 
 // Main
 const pions = [];
+
+// création du damier
 creationBoard(table);
+
+// Initialisation des pions
 init(table, pions);
+
+// Ajout des events listeners
+addAllPionSelectionEvents(pions);
