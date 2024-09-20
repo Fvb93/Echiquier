@@ -81,6 +81,50 @@ const removeAllPionSelectionEvents = () => {
 	});
 };
 
+// Ajoute un event "d'annulation de mouvement"
+let cancelEventAbortController = new AbortController();
+
+const addCancelEvent = () => {
+	cancelEventAbortController = new AbortController();
+	// On ajoute un event "d'annulation de mouvement" sur tout les éléments du DOM sauf les points
+	document.querySelectorAll("*:not(.point)").forEach(element => {
+		element.addEventListener(
+			"click",
+			event => {
+				if (event.target === element) {
+					cancelEvent();
+				}
+			},
+			{
+				signal: cancelEventAbortController.signal,
+			},
+		);
+	});
+
+	// On ajoute un event lorsque l'on clique sur le point pour enlever tout les events "d'annulation de mouvement"
+	document.querySelectorAll(".point").forEach(element => {
+		element.addEventListener(
+			"click",
+			event => {
+				if (event.target === element) {
+					cancelEventAbortController.abort();
+				}
+			},
+			{signal: cancelEventAbortController.signal},
+		);
+	});
+};
+
+const cancelEvent = () => {
+	// permet d'être sûr de cliquer UNIQUEMENT sur l'élement sélectionné
+	pions.forEach(pion => {
+		pion.clearPossibleMove();
+	});
+	addAllPionSelectionEvents();
+
+	cancelEventAbortController.abort();
+};
+
 const changeTurn = () => {
 	removeAllPionSelectionEvents();
 	turn = turn === "white" ? "black" : "white";

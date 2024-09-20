@@ -21,7 +21,6 @@ class Pion {
 		this.node.addEventListener(
 			"click",
 			() => {
-				console.log("Pion selectionné : " + this.x + " " + this.y);
 				// utilisation de la fonction global pour retirer les events listener de tout les pions
 				removeAllPionSelectionEvents();
 
@@ -68,23 +67,6 @@ class Pion {
 				x: this.x,
 				y: this.y + 1 * this.getDirection(),
 			});
-
-			// 2eme case devant le pion
-			if (
-				!pions.find(
-					// rappel: pions est une variable globale contenant tout les pions
-					pion =>
-						pion.x === this.x &&
-						pion.y === this.y + 2 * this.getDirection() &&
-						pion.color !== this.color,
-				)
-			) {
-				// ajoute le mouvement possible
-				possibleMoveTab.push({
-					x: this.x,
-					y: this.y + 2 * this.getDirection(),
-				});
-			}
 		}
 
 		return possibleMoveTab;
@@ -93,31 +75,41 @@ class Pion {
 	showPossibleMove() {
 		const possibleMoves = this.getPossibleMoves();
 
-		possibleMoves.forEach(possibleMove => {
-			// création de la div du point (pour le mouvement possible)
-			const div = document.createElement("div");
-			div.classList.add("point");
+		if (possibleMoves.length === 0) {
+			cancelEvent();
+		} else {
+			possibleMoves.forEach(possibleMove => {
+				// création de la div du point (pour le mouvement possible)
+				const div = document.createElement("div");
+				div.classList.add("point");
 
-			// ajoute le point au tableau
-			this.table.rows[possibleMove.y].cells[possibleMove.x].appendChild(
-				div,
-			);
+				// ajoute le point au tableau
+				this.table.rows[possibleMove.y].cells[
+					possibleMove.x
+				].appendChild(div);
 
-			// ajoute le point à la liste des points
-			this.possibleMovesDiv.push(div);
+				// ajoute le point à la liste des points
+				this.possibleMovesDiv.push(div);
 
-			// ajoute l'event listener pour le mouvement
-			div.addEventListener("click", () => {
-				this.move(possibleMove.x, possibleMove.y);
+				// ajoute l'event listener pour le mouvement
+				div.addEventListener("click", () => {
+					this.move(possibleMove.x, possibleMove.y);
+				});
 			});
-		});
+
+			addCancelEvent();
+		}
 	}
 
-	move(newX, newY) {
+	clearPossibleMove() {
 		// supprime les points de mouvements possibles
 		this.possibleMovesDiv.forEach(possibleMoveDiv => {
 			possibleMoveDiv.remove();
 		});
+	}
+
+	move(newX, newY) {
+		this.clearPossibleMove();
 
 		// on vérifie si un pion est présent sur la case d'arrivée
 		const target = this.checkIfMovedOnPion(newX, newY);
