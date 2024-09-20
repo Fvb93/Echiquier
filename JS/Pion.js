@@ -14,13 +14,13 @@ class Pion {
 		this.color = color;
 	}
 
-	setPionSelectionEvent(disableAllFn) {
+	setPionSelectionEvent() {
 		this.node.addEventListener(
 			"click",
 			() => {
 				console.log("Pion selectionné : " + this.x + " " + this.y);
-				// désactive tous l'event listener de tout les pions (fonction callback fournie lors de la création)
-				disableAllFn();
+				// utilisation de la fonction global pour retirer les events listener de tout les pions
+				removeAllPionSelectionEvents();
 
 				// place des points rouges au movement possible
 				this.showPossibleMove();
