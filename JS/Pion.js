@@ -4,7 +4,7 @@ class Pion {
 	x = 0;
 	y = 0;
 	color;
-	pionSelectionAbortController = new AbortController();
+	pionSelectionAbortController;
 
 	possibleMovesDiv = [];
 
@@ -17,6 +17,7 @@ class Pion {
 	}
 
 	setPionSelectionEvent() {
+		this.pionSelectionAbortController = new AbortController();
 		this.node.addEventListener(
 			"click",
 			() => {
