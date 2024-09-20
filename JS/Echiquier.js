@@ -68,7 +68,7 @@ const init = (tableNode, pionTab) => {
 // Fait en sorte que les pions soient cliquables (premier clique pour selectionner le pion à déplacer)
 const addAllPionSelectionEvents = () => {
 	pions.forEach(pion => {
-		pion.setPionSelectionEvent(removeAllPionSelectionEvents);
+		pion.setPionSelectionEvent();
 	});
 };
 
@@ -104,4 +104,4 @@ creationBoard(table);
 init(table, pions);
 
 // Ajout des events listeners
-addAllPionSelectionEvents(pions);
+addAllPionSelectionEvents();
