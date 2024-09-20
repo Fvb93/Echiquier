@@ -58,12 +58,12 @@ const init = (tableNode, pionTab) => {
    *****************
     FONCTION GLOBALE 
 
-    En JS, les fonctions sont globales par défaut.
+    En JS, les fonctions et variables déclarées hors d'un scope sont globales.
     C'est à dire qu'elles sont accessibles partout dans le code (et même dans les autres fichiers JS)
 
     Grace à cela, les fonctions suivantes vont être accessibles dans le fichier JS/Pion.js
    ****************** 
-*/
+   */
 
 // Fait en sorte que les pions soient cliquables (premier clique pour selectionner le pion à déplacer)
 const addAllPionSelectionEvents = () => {
@@ -78,6 +78,8 @@ const removeAllPionSelectionEvents = () => {
 		pion.removePionSelectionEvent();
 	});
 };
+
+const pions = [];
 
 /*
     *****************
@@ -95,7 +97,6 @@ const table = document.querySelector("#chessboard");
     Ici, on initialise le jeu (création du board, intialisation des pions, ajout des events listeners)
     ******************
  */
-const pions = [];
 
 // création du damier
 creationBoard(table);

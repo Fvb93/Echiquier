@@ -53,26 +53,36 @@ class Pion {
 
 		// 1ere case devant le pion
 		if (
-			this.table.rows[this.y + this.getDirection()].cells[this.x].children // cette condition va problablement changer pour utiliser la liste de pions (class)
-				.length === 0
+			!pions.find(
+				// rappel: pions est une variable globale contenant tout les pions
+				pion =>
+					pion.x === this.x &&
+					pion.y === this.y + 1 * this.getDirection() &&
+					pion.color === this.color,
+			)
 		) {
 			// ajoute le mouvement possible
 			possibleMoveTab.push({
 				x: this.x,
 				y: this.y + 1 * this.getDirection(),
 			});
-		}
 
-		// 2eme case devant le pion
-		if (
-			this.table.rows[this.y + 2 * this.getDirection()].cells[this.x]
-				.children.length === 0
-		) {
-			// ajoute le mouvement possible
-			possibleMoveTab.push({
-				x: this.x,
-				y: this.y + 2 * this.getDirection(),
-			});
+			// 2eme case devant le pion
+			if (
+				!pions.find(
+					// rappel: pions est une variable globale contenant tout les pions
+					pion =>
+						pion.x === this.x &&
+						pion.y === this.y + 2 * this.getDirection() &&
+						pion.color !== this.color,
+				)
+			) {
+				// ajoute le mouvement possible
+				possibleMoveTab.push({
+					x: this.x,
+					y: this.y + 2 * this.getDirection(),
+				});
+			}
 		}
 
 		return possibleMoveTab;
