@@ -33,7 +33,9 @@ class Pion {
 	}
 
 	removePionSelectionEvent() {
-		this.pionSelectionAbortController.abort(); // annule les events listener utilisant l'AbortController
+		if (this.pionSelectionAbortController) {
+			this.pionSelectionAbortController.abort(); // annule les events listener utilisant l'AbortController
+		}
 	}
 
 	getDirection() {
@@ -130,7 +132,7 @@ class Pion {
 		this.table.rows[newY].cells[newX].appendChild(this.node);
 
 		// utilisation de la fonction globale pour ajouter les events listener de tout les pions
-		addAllPionSelectionEvents();
+		changeTurn();
 	}
 
 	destroy() {

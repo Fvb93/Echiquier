@@ -68,7 +68,9 @@ const init = (tableNode, pionTab) => {
 // Fait en sorte que les pions soient cliquables (premier clique pour selectionner le pion à déplacer)
 const addAllPionSelectionEvents = () => {
 	pions.forEach(pion => {
-		pion.setPionSelectionEvent();
+		if (pion.color === turn) {
+			pion.setPionSelectionEvent();
+		}
 	});
 };
 
@@ -79,7 +81,14 @@ const removeAllPionSelectionEvents = () => {
 	});
 };
 
+const changeTurn = () => {
+	removeAllPionSelectionEvents();
+	turn = turn === "white" ? "black" : "white";
+	addAllPionSelectionEvents();
+};
+
 const pions = [];
+let turn = "white";
 
 /*
     *****************
