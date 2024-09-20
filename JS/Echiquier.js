@@ -27,13 +27,19 @@ const init = (tableNode, pionTab) => {
 		for (let x = 0; x < tableNode.rows[y].cells.length; x++) {
 			// Création de la div du pion
 			const pionDiv = document.createElement("div");
-			pionDiv.classList.add("pionNoir");
-			tableNode.rows[y].cells[x].appendChild(pionDiv);
-
-			// Instanciation de l'objet Pion (classe Pion)
-			const pion = new Pion(table, pionDiv, x, y, "black");
+			let pion;
+			if (y === 0 && (x === 2 || x === 5)) {
+				pionDiv.classList.add("fouNoir");
+				// Instanciation de l'objet Fou (classe Fou)
+				pion = new Fou(table, pionDiv, x, y, "black");
+			} else {
+				pionDiv.classList.add("pionNoir");
+				// Instanciation de l'objet Pion (classe Pion)
+				pion = new Pion(table, pionDiv, x, y, "black");
+			}
 
 			// Ajoute le pion au tableau de pions
+			tableNode.rows[y].cells[x].appendChild(pionDiv);
 			pionTab.push(pion);
 		}
 	}
