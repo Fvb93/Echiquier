@@ -6,6 +6,8 @@ class Pion {
 	color;
 	pionSelectionAbortController = new AbortController();
 
+	possibleMovesDiv = [];
+
 	constructor(table, node, x, y, color) {
 		this.table = table;
 		this.node = node;
@@ -87,12 +89,29 @@ class Pion {
 			this.table.rows[possibleMove.y].cells[possibleMove.x].appendChild(
 				div,
 			);
+
+			// ajoute le point à la liste des points
+			this.possibleMovesDiv.push(div);
+
+			// ajoute l'event listener pour le mouvement
+			div.addEventListener("click", () => {
+				this.move(possibleMove.x, possibleMove.y);
+			});
 		});
 	}
 
-	move() {
-		const movement = 1;
-		this.y += movement * this.getDirection();
-		this.table.rows[this.y].cells[this.x].appendChild(this.node);
+	move(newX, newY) {
+		// supprime les points de mouvements possibles
+		this.possibleMovesDiv.forEach(possibleMoveDiv => {
+			possibleMoveDiv.remove();
+		});
+
+		// déplace le pion
+		this.x = newX;
+		this.y = newY;
+		this.table.rows[newY].cells[newX].appendChild(this.node);
+
+		// utilisation de la fonction globale pour ajouter les events listener de tout les pions
+		addAllPionSelectionEvents();
 	}
 }
