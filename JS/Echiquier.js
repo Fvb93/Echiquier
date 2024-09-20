@@ -12,40 +12,39 @@ const creationBoard = tableNode => {
 };
 
 // Fct Init Pion
-const init = tableNode => {
-	console.log("test");
-	console.log(tableNode.rows[0].cells.length);
-
+const init = (tableNode, pionTab) => {
 	for (let y = 0; y < 2; y++) {
 		for (let x = 0; x < tableNode.rows[y].cells.length; x++) {
-			const pion = document.createElement("div");
-			let pionx = x;
-			let piony = y;
-			pion.classList.add("pionNoir");
-			tableNode.rows[y].cells[x].appendChild(pion);
-			pion.addEventListener("click", () => {
-				piony++;
-				tableNode.rows[piony].cells[pionx].appendChild(pion);
-			});
+			// Creation of the HTML element
+			const pionDiv = document.createElement("div");
+			pionDiv.classList.add("pionNoir");
+			tableNode.rows[y].cells[x].appendChild(pionDiv);
+
+			// Creation of the Pion object (class Pion)
+			const pion = new Pion(table, pionDiv, x, y, "black");
+			pion.setEvent(); // Add the event listener
+			pionTab.push(pion);
 		}
 	}
 
 	for (let y = tableNode.rows.length - 2; y < tableNode.rows.length; y++) {
 		for (let x = 0; x < tableNode.rows[y].cells.length; x++) {
-			const pion = document.createElement("div");
-			let pionx = x;
-			let piony = y;
-			pion.classList.add("pionBlanc");
-			tableNode.rows[y].cells[x].appendChild(pion);
+			const pionDiv = document.createElement("div");
+			pionDiv.classList.add("pionBlanc");
+			tableNode.rows[y].cells[x].appendChild(pionDiv);
 
-			pion.addEventListener("click", () => {
-				piony--;
-				tableNode.rows[piony].cells[pionx].appendChild(pion);
-			});
+			// Creation of the Pion object (class Pion)
+			const pion = new Pion(table, pionDiv, x, y, "white");
+			pion.setEvent(); // Add the event listener
+			pionTab.push(pion);
 		}
 	}
 };
 
+// DOM elements
 const table = document.querySelector("#chessboard");
+
+// Main
+const pions = [];
 creationBoard(table);
-init(table);
+init(table, pions);
