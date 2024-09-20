@@ -129,10 +129,12 @@ const changeTurn = () => {
 	removeAllPionSelectionEvents();
 	turn = turn === "white" ? "black" : "white";
 	addAllPionSelectionEvents();
+	nbrTurn++;
 };
 
 const pions = [];
 let turn = "white";
+let nbrTurn = 1;
 
 /*
     *****************

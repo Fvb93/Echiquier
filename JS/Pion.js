@@ -6,6 +6,7 @@ class Pion {
 	color;
 	pionSelectionAbortController;
 
+	alreadyMoved = false;
 	possibleMovesDiv = [];
 
 	constructor(table, node, x, y, color) {
@@ -46,28 +47,50 @@ class Pion {
 	getPossibleMoves() {
 		const possibleMoveTab = [];
 
-		/*
-         NOTE: à l'état actuel, notre pion:
-         -   ne peut se déplacer que s'il n'y a rien devant lui
-         -  de 1 ou 2 cases devant lui si elle est vide
-        */
+		const direction = this.getDirection(); // 1 pour les blancs, -1 pour les noirs
 
-		// 1ere case devant le pion
+		// Vérifie si la case devant le pion est vide (1 case en avant)
 		if (
 			!pions.find(
-				// rappel: pions est une variable globale contenant tout les pions
-				pion =>
-					pion.x === this.x &&
-					pion.y === this.y + 1 * this.getDirection() &&
-					pion.color === this.color,
+				pion => pion.x === this.x && pion.y === this.y + 1 * direction,
 			)
 		) {
-			// ajoute le mouvement possible
-			possibleMoveTab.push({
-				x: this.x,
-				y: this.y + 1 * this.getDirection(),
-			});
+			possibleMoveTab.push({x: this.x, y: this.y + 1 * direction});
+
+			// Si le pion est sur sa case de départ et qu'il n'y a rien devant (2 cases en avant)
+			if (!this.alreadyMoved) {
+				if (
+					!pions.find(
+						pion =>
+							pion.x === this.x &&
+							pion.y === this.y + 2 * direction,
+					)
+				) {
+					possibleMoveTab.push({
+						x: this.x,
+						y: this.y + 2 * direction,
+					});
+				}
+			}
 		}
+
+		// Captures diagonales (gauche et droite)
+		const diagonales = [
+			{x: this.x - 1, y: this.y + 1 * direction}, // Diagonale gauche
+			{x: this.x + 1, y: this.y + 1 * direction}, // Diagonale droite
+		];
+
+		diagonales.forEach(diag => {
+			const pionAdverse = pions.find(
+				pion =>
+					pion.x === diag.x &&
+					pion.y === diag.y &&
+					pion.color !== this.color,
+			);
+			if (pionAdverse) {
+				possibleMoveTab.push(diag); // Capture possible
+			}
+		});
 
 		return possibleMoveTab;
 	}
@@ -110,6 +133,8 @@ class Pion {
 
 	move(newX, newY) {
 		this.clearPossibleMove();
+
+		this.alreadyMoved = true;
 
 		// on vérifie si un pion est présent sur la case d'arrivée
 		const target = this.checkIfMovedOnPion(newX, newY);
